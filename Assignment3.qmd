@@ -1,5 +1,80 @@
 ---
-title: "Assignment 3"
-format: html
+title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
+format: pdf
+  toc: true
 editor: visual
 ---
+<!-- START: Executive Summary -->
+## Executive Summary
+
+
+
+
+<!-- END: Executive Summary -->
+<!-- START: Introduction -->
+## Introduction
+
+
+
+
+
+
+
+
+
+
+<!-- END: Introduction-->
+<!-- START: Methodology -->
+## Methodology
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- END: Methodology -->
+<!-- START: Results -->
+## Results
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- END: Results -->
+<!-- START: Discussion -->
+## Discussion
+
+
+
+
+
+<!-- END: Discussion -->
+<!-- START: Conclusion -->
+## Conclusion
+
+
+
+
+
+<!-- END: Conclusion -->
+<!-- START: Recommendations -->
+## Recommendations
+
+
+
+
+
+<!-- END: Recommendations -->

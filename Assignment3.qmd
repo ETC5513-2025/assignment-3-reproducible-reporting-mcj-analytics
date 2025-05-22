@@ -1,5 +1,13 @@
 ---
-title: "Assignment 3"
-format: html
+title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
+format: pdf
+  toc: true
 editor: visual
 ---
+<!-- START: Executive Summary -->
+## Executive Summary
+
+
+
+
+<!-- END: Executive Summary -->

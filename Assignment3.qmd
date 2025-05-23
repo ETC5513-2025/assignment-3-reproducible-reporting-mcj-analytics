@@ -1,5 +1,126 @@
 ---
-title: "Assignment 3"
-format: html
+title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
+format: pdf
+  toc: true
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
+<!-- START: Executive Summary -->
+## Executive Summary
+
+
+
+
+<!-- END: Executive Summary -->
+<!-- START: Introduction -->
+## Introduction
+
+
+
+
+
+
+
+
+
+
+<!-- END: Introduction-->
+<!-- START: Methodology -->
+## Methodology
+```{r}
+#| echo: false
+
+library(fpp3)
+
+# Data cleaning and preperation
+
+# Gender wage gap data
+gender_wage_gap <- read.csv("gender wage gap across time.csv") %>% 
+  select(Reference.area, OBS_VALUE, TIME_PERIOD) %>% 
+  rename(Country = Reference.area, Gender_Wage_Gap = OBS_VALUE, Year = TIME_PERIOD) %>% 
+  arrange(Year)
+
+gender_wage_gap <- gender_wage_gap %>%
+  group_by(Country, Year) %>%
+  summarise(Gender_Wage_Gap = mean(Gender_Wage_Gap), .groups = "drop")
+
+gender_wage_gap <- gender_wage_gap %>%
+  mutate(Country = ifelse(Country == "European Union (27 countries)", "European Union", Country))
+
+# GDP per capita data
+gdp <- read.csv("gdp per capita.csv") %>% 
+  select(-X.1) %>% 
+  rename(Country = X)
+
+gdp <- gdp %>%
+  pivot_longer(
+    cols = starts_with("X"),
+    names_to = "Year",
+    values_to = "GDP_per_capita"
+  ) %>%
+  mutate(year = as.integer(sub("X", "", Year))) 
+
+gdp <- gdp %>% 
+  select(Country, GDP_per_capita, year) %>% 
+  rename(Year = year)
+
+# Merge the two datasets
+data <- left_join(gender_wage_gap, gdp, by = c("Country", "Year"))
+
+# Gender stats data
+gender <- read.csv("gender stats.csv") 
+
+gender <- gender[-c(15,16,17,18,19), ]
+
+gender <- gender %>% 
+  select(-Country.Code, -Series.Code) %>% 
+  rename(y = Series.Name, Country = Country.Name)
+
+# Labor force participation, female (% of female pop aged 15-64)
+labor_force_participation <- gender %>% 
+  filter(y == "Labor force participation rate, female (% of female population ages 15-64) (modeled ILO estimate)") %>% 
+  select(-y) %>% 
+  pivot_longer(
+    cols = -Country,
+    names_to = "Year",
+    values_to = "Labour_force_participation"
+  ) %>%
+  mutate(Year = as.integer(sub(".*?(\\d{4}).*", "\\1", Year))) 
+
+# Part time employment, female (% of total female employment)
+part_time_employment <- gender %>% 
+  filter(y == "Part time employment, female (% of total female employment)") %>% 
+  select(-y) %>% 
+  pivot_longer(
+    cols = -Country,
+    names_to = "Year",
+    values_to = "Part_time_employment"
+  ) %>%
+  mutate(Year = as.integer(sub(".*?(\\d{4}).*", "\\1", Year)))
+  
+# Merge datasets
+data <- left_join(data, labor_force_participation, by = c("Country", "Year"))
+
+data <- left_join(data, part_time_employment, by = c("Country", "Year")) 
+
+data <- data %>% 
+  select(-Labour_force_participation.y)
+
+data <- data %>% 
+  rename(Labour_force_participation = Labour_force_participation.x)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- END: Methodology -->

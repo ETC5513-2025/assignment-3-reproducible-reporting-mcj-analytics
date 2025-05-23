@@ -104,12 +104,6 @@ data <- left_join(data, labor_force_participation, by = c("Country", "Year"))
 
 data <- left_join(data, part_time_employment, by = c("Country", "Year")) 
 
-data <- data %>% 
-  select(-Labour_force_participation.y)
-
-data <- data %>% 
-  rename(Labour_force_participation = Labour_force_participation.x)
-
 ```
 
 

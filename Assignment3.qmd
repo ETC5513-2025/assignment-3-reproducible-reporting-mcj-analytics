@@ -4,53 +4,27 @@ format: pdf
   toc: true
 editor: visual
 ---
+
 <!-- START: Executive Summary -->
+
 ## Executive Summary
 
-
-
-
 <!-- END: Executive Summary -->
+
 <!-- START: Introduction -->
+
 ## Introduction
 
-
-
-
-
-
-
-
-
-
 <!-- END: Introduction-->
+
 <!-- START: Methodology -->
+
 ## Methodology
 
-
-
-
-
-
-
-
-
-
-
-
 <!-- END: Methodology -->
+
 <!-- START: Results -->
+
 ## Results
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- END: Results -->

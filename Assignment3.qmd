@@ -13,7 +13,7 @@ editor: visual
 <!-- END: Executive Summary -->
 <!-- START: Introduction -->
 ## Introduction
+The gender pay gap—the difference in median earnings between men and women as a percentage of men's earnings—is a widely used indicator of economic inequality. It captures disparities not only in pay for equal work, but also in broader structural dynamics such as occupational segregation, unpaid care burdens, and labor force participation. Importantly, a visible pay gap does not always reflect direct discrimination, nor does its absence guarantee equality. Discrimination may still influence career choices or discourage women from entering or staying in the workforce altogether. Conversely, large pay gaps can exist even in societies with formal equality if women are concentrated in lower-paying roles or sectors.
 
-
-
+This complexity makes the gender pay gap a useful but incomplete signal—it reflects inequality, but does not explain it. Across countries, the size and persistence of the gap vary widely, raising the question of what social, cultural, and institutional factors are driving these differences. While education levels between men and women have converged globally, disparities in earnings remain. This suggests that deeper forces—such as caregiving norms, workplace structures, and policy frameworks—play a crucial role. This report explores how and why the gender pay gap differs across countries, identifying key indicators that help explain cross-national patterns of inequality.
 <!-- END: Introduction -->

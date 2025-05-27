@@ -10,10 +10,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-=======
-
 <!-- START: Executive Summary -->
 ## Executive Summary
+
+
+
 
 <!-- END: Executive Summary -->
 <!-- START: Introduction -->
@@ -246,3 +247,40 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
 
 
 <!-- END: Results -->
+
+<!-- START: Discussion -->
+## Discussion
+
+The gender wage gap which varies greatly between nations and over time, is still a persistent global problem. The report analyzes the percentage difference in the earnings of females compared to males to assess salary discrepancies across a large sample of OECD nations. Due to ingrained structural disparities and gender norms in the workplace, countries like South Korea and Japan continue to have some of the highest gaps, frequently surpassing 20%.
+In contrast nations like Sweden and the European Union on the other hand have significantly lower wage gaps, owing to progressive labour laws, subsidized child care and equal parental leave. Although the rate of improvement has slowed recently the data also suggests an overall downward trend in the wage gap over.
+Moreover some countries show fluctuations rather than steady advancement, indicating that policy changes, labour force participation variations all impact wage equity outcomes. Importantly, variations in seniority, industry,hours worked and occupation- factors that can both mask and intensify underlying discrimination are not taken into consideration by the gap indicator.  
+
+
+
+<!-- END: Discussion -->
+
+<!-- START: Conclusion -->
+##Conclusion
+
+The data confirms that the gender wage gap between 2000 and 2020 is still a major obstacle to economic fairness even though it is gradually closing in many nations. Even though there has been some noticeable progress, particularly in countries where specific policy interventions have been implemented, the pace of development is uneven and frequently stalls in the absence of consistent effort. High-gap countries demonstrate how cultural attitudes, insufficient family policies, and limited access to leadership roles for women continue to perpetuate inequality. By improving social cohesiveness, productivity, and talent utilization, a closing pay gap helps economics as well as individuals. Achieving gender pay equity is thus not just a moral imperative but an economic one.
+
+
+<!-- END: Conclusion -->
+
+
+<!-- START: Recommendations -->
+##Recommendations
+
+1. Government should enforce pay transparency laws and compel big businesses to submit gender-disaggregated compensation data on a regular basis.
+
+2. Increase access to cost-effective childcare, encourage parental leave uptake, and support flexible work schedules to support working parents.
+
+3. Encourage the presence of women in executive and managerial positions by implementing fair promotion practices, sponsorship, quotas.
+
+4. Keep a close eye on developments in the pay gap and assess the success of measures using internationally recognized metrics.
+
+5. Promote STEM education, mentorship and discrimination-free hiring practices to encourage women and girls to pursue historically male-dominated fields.
+
+
+
+<!-- END: Recommendations -->

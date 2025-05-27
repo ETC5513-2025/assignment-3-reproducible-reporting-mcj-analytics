@@ -1,0 +1,229 @@
+---
+title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
+subtitle: "name and id/ Chanya Kitprapa 34684824"
+format: revealjs
+editor: visual
+---
+
+## Research Objective
+
+-   Investigate how and why gender pay gaps differ across countries
+
+-   Explore factors influencing wage gaps using OECD and World Bank data
+
+## Methodology Summary
+
+-   Data from 7 regions (e.g., Australia, US, Japan, Sweden, EU)
+
+-   Timeframe: 2000–2020
+
+-   Variables used:
+
+    -   Gender wage gap (% of male earnings)
+
+    -   GDP per capita (USD, 2015)
+
+    -   Female labour force participation (15–64)
+
+    -   Female educational attainment (Bachelor+)
+
+    -   Part-time female employment rate
+
+-   Tools: R, tidyverse, ggplot2, Quarto
+
+## Key Findings – Trends Over Time
+
+-   Gender wage gaps **declined** in all countries studied
+
+-   **Korea and Japan**: highest, slowest to improve
+
+-   **Sweden and EU**: lowest gaps, most consistent improvements
+
+-   **Australia, UK, US**: moderate progress with fluctuations
+
+```{r}
+#| echo: false
+
+library(fpp3)
+library(kableExtra)
+library(dplyr)
+library(stringr)
+
+# Data cleaning and preperation
+
+# Gender wage gap data
+
+gender_wage_gap <- read.csv("Data/gender wage gap across time.csv") %>%
+  select(Reference.area, OBS_VALUE, TIME_PERIOD) %>% 
+  rename(Country = Reference.area, Gender_Wage_Gap = OBS_VALUE, Year = TIME_PERIOD) %>% 
+  arrange(Year)
+
+gender_wage_gap <- gender_wage_gap %>%
+  group_by(Country, Year) %>%
+  summarise(Gender_Wage_Gap = mean(Gender_Wage_Gap), .groups = "drop")
+
+gender_wage_gap <- gender_wage_gap %>%
+  mutate(Country = ifelse(Country == "European Union (27 countries)", "European Union", Country))
+
+# GDP per capita data
+gdp <- read.csv("Data/gdp per capita.csv") %>%
+  select(-X.1) %>% 
+  rename(Country = X)
+
+gdp <- gdp %>%
+  pivot_longer(
+    cols = starts_with("X"),
+    names_to = "Year",
+    values_to = "GDP_per_capita"
+  ) %>%
+  mutate(year = as.integer(sub("X", "", Year))) 
+
+gdp <- gdp %>% 
+  select(Country, GDP_per_capita, year) %>% 
+  rename(Year = year)
+
+# Merge the two datasets
+data <- left_join(gender_wage_gap, gdp, by = c("Country", "Year"))
+
+# Gender stats data
+
+gender <- read.csv("Data/gender stats.csv") 
+
+
+gender <- gender[-c(15,16,17,18,19), ]
+
+gender <- gender %>% 
+  select(-Country.Code, -Series.Code) %>% 
+  rename(y = Series.Name, Country = Country.Name)
+
+# Labor force participation, female (% of female pop aged 15-64)
+labor_force_participation <- gender %>% 
+  filter(y == "Labor force participation rate, female (% of female population ages 15-64) (modeled ILO estimate)") %>% 
+  select(-y) %>% 
+  pivot_longer(
+    cols = -Country,
+    names_to = "Year",
+    values_to = "Labour_force_participation"
+  ) %>%
+  mutate(Year = as.integer(sub(".*?(\\d{4}).*", "\\1", Year))) 
+
+# Part time employment, female (% of total female employment)
+part_time_employment <- gender %>% 
+  filter(y == "Part time employment, female (% of total female employment)") %>% 
+  select(-y) %>% 
+  pivot_longer(
+    cols = -Country,
+    names_to = "Year",
+    values_to = "Part_time_employment"
+  ) %>%
+  mutate(Year = as.integer(sub(".*?(\\d{4}).*", "\\1", Year)))
+  
+# Merge datasets
+data <- left_join(data, labor_force_participation, by = c("Country", "Year"))
+
+data <- left_join(data, part_time_employment, by = c("Country", "Year")) 
+
+female_bachelors <- read.csv("Data/female bachelors attainment.csv") %>% 
+  rename(Country = X) %>% 
+  select(-X.1) %>% 
+  mutate(Country = ifelse(Country == "Korea, Rep.", "Korea", Country)) %>% 
+  pivot_longer(
+    cols = starts_with("X"),
+    names_to = "Year",
+    values_to = "Female_bachelors") %>%
+  mutate(Year = as.integer(sub("X", "", Year))) 
+
+# Merge datasets
+data <- left_join(data, female_bachelors, by = c("Country", "Year"))
+
+# Convert data str
+data <- data %>% 
+  mutate(Labour_force_participation = as.numeric(Labour_force_participation))
+
+```
+
+```{r}
+#| label: fig-medianwagegap
+#| fig-cap: "Median gender wage gap by country (2000-2020)"
+#| echo: false
+
+ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title = "Gender Wage Gap",
+    x = "Year",
+    y = "Median Gender Wage Gap (%)",
+    color = "Country"
+  ) +
+  theme_minimal()
+
+```
+
+---
+
+## GDP vs Wage Gap
+
+-   No clear relationship between **high GDP** and **low wage gaps**
+
+-   Example: US and Australia have high GDP but still notable wage gaps
+
+-   Structural factors matter more than income level
+
+```{r}
+#| label: fig-wagegapvsgdp
+#| fig-cap: "Median gender wage gap vs GDP per capita across countries (2000-2020)"
+#| echo: false
+
+data_filtered <- data %>% 
+  filter(Country !="Korea")
+
+data_gdp <- data_filtered %>%
+  mutate(GDP_per_capita = str_replace_all(GDP_per_capita, "[^0-9.]", ""),
+         GDP_per_capita = as.numeric(GDP_per_capita))
+
+ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country)) +
+  geom_point(size = 4) +
+  labs(
+    x = "GDP per Capita (2015, $US)",
+    y = "Median Gender Wage Gap (%)",
+    color = "Country"
+  ) +
+  theme_minimal()
+```
+
+---
+
+## Discussion
+
+-   Wage gaps persist due to **structural inequalities**
+
+-   Cultural norms, family leave policies, and workplace promotion bias
+
+-   Gaps are **not explained by GDP alone**
+
+-   Indicator does not adjust for hours worked, role seniority, or industry
+
+---
+
+## Conclusion
+
+-   Gender wage gaps are narrowing overall, but **unevenly**
+
+-   Progress depends on consistent, structural policy interventions
+
+-   **Economic equity** benefits individuals and the broader economy
+
+---
+
+## Recommendations
+
+-   Enforce pay transparency reporting
+
+-   Support childcare access and flexible work
+
+-   Promote women in leadership roles
+
+-   Monitor wage gap metrics with global standards
+
+-   Encourage STEM education and fair hiring practices

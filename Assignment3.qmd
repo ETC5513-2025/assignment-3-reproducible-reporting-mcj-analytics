@@ -15,21 +15,9 @@ editor_options:
 <!-- START: Executive Summary -->
 ## Executive Summary
 
-
-
-
 <!-- END: Executive Summary -->
 <!-- START: Introduction -->
 ## Introduction
-
-
-
-
-
-
-
-
-
 
 <!-- END: Introduction-->
 <!-- START: Methodology -->
@@ -119,7 +107,6 @@ data <- left_join(data, part_time_employment, by = c("Country", "Year"))
 
 ```
 
-
 # Educational attainment, at least Bachelor's or equivalent, population 25+, female (%) (cumulative)
 
 ```{r}
@@ -143,7 +130,6 @@ data <- data %>%
 
 
 ```
-
 
 
 This study investigates cross-country differences in the gender wage gap by analyzing trends from 2000 to 2020 across seven countries: Australia, United Kingdom, United States, Sweden, Japan, South Korea, and the European Union. The gender wage gap is measured as the difference in median earnings between men and women, expressed as a percentage of male earnings. This metric captures broader structural inequality beyond direct wage discrimination, and serves as the dependent variable in our analysis.
@@ -231,12 +217,8 @@ ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, c
 ```
 @fig-wagegapvsflabpart shows that in most countries, increases in female labor force participation over time are associated with declines in the median gender wage gap. However, the strength and consistency of this relationship vary: countries like the UK and EU show a strong negative association, while the US displays a relatively flat or even slightly positive trend.
 
-
-
 <!-- END: Methodology -->
-
 <!-- START: Results -->
-
 ## Results
 
 Across the observed countries, the median gender wage gap declined between 2000 and 2020, though the rate and consistency of improvement varied. South Korea and Japan maintained relatively high wage gaps throughout the period, while Sweden and the European Union recorded the lowest and most stable reductions. Australia, the UK, and the US showed moderate but uneven progress. This variation is illustrated in fig-wagegapvsgd which compares the gender wage gap to GDP per capita. The figure highlights that higher national income does not necessarily translate to greater gender pay equity. For instance, the United States and Australia report high GDP per capita but continue to exhibit significant wage disparities. Conversely, Sweden and the EU combine strong economic performance with narrower wage gaps. These findings suggest that while economic development may influence gender pay outcomes, it is not the sole determining factor. Other structural elements, such as labor market policies, social norms, and institutional support for gender equality, are likely to shape the extent of wage disparities across countries.
@@ -261,8 +243,6 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
   ) +
   theme_minimal()
 ```
-
-
 
 
 <!-- END: Results -->

@@ -1,6 +1,9 @@
 ---
-title: "Gender Pay Gap across countries: Industry-Level Trends and Analysis"
-subtitle: "Muhammad Nor Hakim bin Mad Yusof 28693310 / Chanya Kitprapa 34684824 / Janhavi Bayanwar 35579331"
+title: "What Explains the Gender Pay Gap Across Countries?"
+author: 
+  - name: Muhammad Nor Hakim bin Mad Yusof (28693310)
+  - name: Chanya Kitprapa (34684824)
+  - name: Janhavi Bayanwar (35579331)
 format: revealjs
 editor: visual
 ---
@@ -11,7 +14,7 @@ editor: visual
 
 -   Explore factors influencing wage gaps using OECD and World Bank data
 
----
+------------------------------------------------------------------------
 
 ## Dataset description
 
@@ -25,7 +28,7 @@ editor: visual
     -   Part-time employment (%)
     -   Female education (Bachelor+)
 
----
+------------------------------------------------------------------------
 
 ## Methods
 
@@ -158,6 +161,8 @@ data <- data %>%
 
 ```
 
+---
+
 ```{r}
 #| label: fig-medianwagegap
 #| fig-cap: "Median gender wage gap by country (2000-2020)"
@@ -186,6 +191,8 @@ ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
 
 -   Structural factors matter more than income level
 
+---
+
 ```{r}
 #| label: fig-wagegapvsgdp
 #| fig-cap: "Median gender wage gap vs GDP per capita across countries (2000-2020)"
@@ -201,11 +208,75 @@ data_gdp <- data_filtered %>%
 ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country)) +
   geom_point(size = 4) +
   labs(
+    title = "Median gender wage gap vs GDP per capita across countries (2000-2020)",
     x = "GDP per Capita (2015, $US)",
     y = "Median Gender Wage Gap (%)",
     color = "Country"
   ) +
   theme_minimal()
+```
+
+---
+
+## Women’s Education Attainment
+
+-   All countries saw an increase in female bachelor’s degree attainment
+-   Most countries converged above 36% by 2020
+-   Higher education ≠ lower wage gap
+
+---
+
+```{r}
+#| label: fig-femaleeducation
+#| fig-cap: "Evolution of female education attainment across countries (2013-2020)"
+#| echo: false
+
+education_filtered <- data %>%
+  filter(Year >= 2013, !Country %in% c("European Union", "Japan", "Korea"))
+
+ggplot(education_filtered, aes(x = Year, y = Female_bachelors, color = Country, group = Country)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Female Bachelor's Degree or Equivalent Attainment by Country (2013–2020)",
+    x = "Year",
+    y = "Female Attainment (%)",
+    color = "Country"
+  ) +
+  theme_minimal()
+
+```
+
+---
+
+## Female Part-Time Employment vs Wage Gap
+
+-   Positive correlation: more female part-time → higher wage gap
+-   Japan and UK showed strongest relationship
+-   Sweden maintains low wage gap despite high part-time rates
+
+---
+
+```{r}
+#| label: fig-wagegapvsparttime
+#| fig-cap: "Median gender wage gap vs Part-time female employment (2000-2020)"
+
+data_filtered_new <- data %>% 
+  filter(!Country %in% c("Korea", "Japan"))
+  
+ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, color = Year)) +
+  geom_point(size = 2, alpha = 0.7) +
+  facet_wrap(~ Country) +
+  scale_color_viridis_c() +
+  labs(
+    title = "Evolution of Gender Wage Gap vs. Part-time female employment",
+    x = "Part-time female employment (%)",
+    y = "Median Gender Wage Gap (%)",
+    color = "Year"
+  ) +
+  theme_minimal() +
+  scale_x_discrete(breaks = seq(2000, 2020, by = 5)) +
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red")
+
 ```
 
 ------------------------------------------------------------------------
@@ -230,16 +301,14 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
 
 -   **Economic equity** benefits individuals and the broader economy
 
+-   Cultural change and leadership access are key to long-term equity
+
 ------------------------------------------------------------------------
 
 ## Recommendations
 
--   Enforce pay transparency reporting
-
--   Support childcare access and flexible work
-
--   Promote women in leadership roles
-
--   Monitor wage gap metrics with global standards
-
--   Encourage STEM education and fair hiring practices
+1.  Enforce pay transparency and gender pay reporting
+2.  Expand access to childcare and flexible work
+3.  Promote women in leadership through quotas or sponsorship
+4.  Track wage gaps with standard indicators
+5.  Encourage girls in STEM and eliminate biased hiring

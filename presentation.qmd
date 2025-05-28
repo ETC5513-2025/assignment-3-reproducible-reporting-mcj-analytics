@@ -1,5 +1,5 @@
 ---
-title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
+title: "Gender Pay Gap across countries: Industry-Level Trends and Analysis"
 subtitle: "Muhammad Nor Hakim bin Mad Yusof 28693310 / Chanya Kitprapa 34684824 / "
 format: revealjs
 editor: visual

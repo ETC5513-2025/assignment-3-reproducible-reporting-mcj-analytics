@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 title: "What Explains the Gender Pay Gap Across Countries?"
 author:
   - name: Muhammad Nor Hakim bin Mad Yusof (28693310)
@@ -307,3 +308,99 @@ The data confirms that the gender wage gap between 2000 and 2020 is still a majo
 4.  Keep a close eye on developments in the pay gap and assess the success of measures using internationally recognized metrics.
 
 5.  Promote STEM education, mentorship and discrimination-free hiring practices to encourage women and girls to pursue historically male-dominated fields.
+=======
+title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
+format: 
+  pdf:
+    toc: true
+    bibliography: references.bib
+editor: visual
+nocite: |
+  @ourworldindata_gender_inequality
+  @oecd_gender_equality_work
+  @worldbank_gender_statistics
+
+---
+<!-- START: Executive Summary -->
+## Executive Summary
+
+
+
+
+<!-- END: Executive Summary -->
+<!-- START: Introduction -->
+## Introduction
+
+
+
+
+
+
+
+
+
+
+<!-- END: Introduction-->
+<!-- START: Methodology -->
+## Methodology
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- END: Methodology -->
+<!-- START: Results -->
+## Results
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- END: Results -->
+<!-- START: Discussion -->
+## Discussion
+
+
+
+
+
+<!-- END: Discussion -->
+<!-- START: Conclusion -->
+## Conclusion
+
+
+
+
+
+<!-- END: Conclusion -->
+<!-- START: Recommendations -->
+## Recommendations
+
+
+
+
+
+<!-- END: Recommendations -->
+<!-- START: References -->
+## References
+
+
+
+
+
+<!-- END: References -->
+>>>>>>> branch/references

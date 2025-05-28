@@ -1,8 +1,15 @@
 ---
 title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
-format: pdf
-  toc: true
+format: 
+  pdf:
+    toc: true
+    bibliography: references.bib
 editor: visual
+nocite: |
+  @ourworldindata_gender_inequality
+  @oecd_gender_equality_work
+  @worldbank_gender_statistics
+
 ---
 <!-- START: Executive Summary -->
 ## Executive Summary

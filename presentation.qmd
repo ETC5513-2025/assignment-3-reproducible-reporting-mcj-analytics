@@ -1,17 +1,33 @@
 ---
 title: "Gender Pay Gap in Australia: Industry-Level Trends and Analysis"
-subtitle: "name and id/ Chanya Kitprapa 34684824"
+subtitle: "Muhammad Nor Hakim bin Mad Yusof 28693310 / Chanya Kitprapa 34684824 / "
 format: revealjs
 editor: visual
 ---
 
-## Research Objective
+## Problem introduction
 
 -   Investigate how and why gender pay gaps differ across countries
 
 -   Explore factors influencing wage gaps using OECD and World Bank data
 
-## Methodology Summary
+---
+
+## Dataset description
+
+-   7 countries: Australia, UK, US, Sweden, Japan, Korea, EU\
+-   Timeframe: 2000–2020\
+-   Data sources: OECD, World Bank\
+-   Key variables:
+    -   Gender wage gap (%)
+    -   GDP per capita (USD, 2015)
+    -   Female labor force participation
+    -   Part-time employment (%)
+    -   Female education (Bachelor+)
+
+---
+
+## Methods
 
 -   Data from 7 regions (e.g., Australia, US, Japan, Sweden, EU)
 
@@ -31,7 +47,7 @@ editor: visual
 
 -   Tools: R, tidyverse, ggplot2, Quarto
 
-## Key Findings – Trends Over Time
+## Results / Key Findings – Trends Over Time
 
 -   Gender wage gaps **declined** in all countries studied
 
@@ -160,7 +176,7 @@ ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
 
 ```
 
----
+------------------------------------------------------------------------
 
 ## GDP vs Wage Gap
 
@@ -192,7 +208,7 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
   theme_minimal()
 ```
 
----
+------------------------------------------------------------------------
 
 ## Discussion
 
@@ -204,7 +220,7 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
 
 -   Indicator does not adjust for hours worked, role seniority, or industry
 
----
+------------------------------------------------------------------------
 
 ## Conclusion
 
@@ -214,7 +230,7 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
 
 -   **Economic equity** benefits individuals and the broader economy
 
----
+------------------------------------------------------------------------
 
 ## Recommendations
 

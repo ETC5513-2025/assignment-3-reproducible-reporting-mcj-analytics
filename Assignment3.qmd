@@ -5,9 +5,9 @@ format: pdf
 editor: visual
 ---
 <!-- START: Executive Summary -->
-## Executive Summary
+# Executive Summary
 
-
+The report explores how the gender pay gap has changed over the past two decades across multiple OECD countries.Despite widespread improvements in female education and labor force participation, substantial wage gaps remain.The analysis leverages a panel dataset combining gender wage gap statistics with indicators such as GDP per capita, female labor force participation, part-time employment rates, and female educational attainment.Wealthy nations still exhibit significant gaps, suggesting that economic growth alone does not ensure gender equity.Overall structural and institutional factors—such as labor laws, caregiving norms, and access to full-time work—play a critical role in shaping gender pay inequality. Policy interventions that promote workplace equality, affordable childcare, and flexible but secure employment may be more effective in closing the gap than economic development alone.
 
 
 <!-- END: Executive Summary -->

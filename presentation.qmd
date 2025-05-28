@@ -1,6 +1,6 @@
 ---
 title: "Gender Pay Gap across countries: Industry-Level Trends and Analysis"
-subtitle: "Muhammad Nor Hakim bin Mad Yusof 28693310 / Chanya Kitprapa 34684824 / "
+subtitle: "Muhammad Nor Hakim bin Mad Yusof 28693310 / Chanya Kitprapa 34684824 / Janhavi Bayanwar 35579331"
 format: revealjs
 editor: visual
 ---

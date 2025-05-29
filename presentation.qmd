@@ -267,7 +267,7 @@ ggplot(education_filtered, aes(x = Year, y = Female_bachelors, color = Country, 
 
 ------------------------------------------------------------------------
 
-## Female part-time employment vs gender wage gap
+## Results - Female part-time employment vs gender wage gap
 
 -   Positive correlation: more female part-time → higher wage gap
 -   Japan and UK showed strongest relationship

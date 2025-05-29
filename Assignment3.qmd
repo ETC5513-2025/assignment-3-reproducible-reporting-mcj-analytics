@@ -49,7 +49,7 @@ library(stringr)
 # Data cleaning and preparation
 # Gender wage gap data
 
-gender_wage_gap <- read.csv("Data/gender wage gap across time.csv") %>%
+gender_wage_gap <- read.csv("gender wage gap across time.csv") %>%
   select(Reference.area, OBS_VALUE, TIME_PERIOD) %>% 
   rename(Country = Reference.area, Gender_Wage_Gap = OBS_VALUE, Year = TIME_PERIOD) %>% 
   arrange(Year)
@@ -62,7 +62,7 @@ gender_wage_gap <- gender_wage_gap %>%
   mutate(Country = ifelse(Country == "European Union (27 countries)", "European Union", Country))
 
 # GDP per capita data
-gdp <- read.csv("Data/gdp per capita.csv") %>%
+gdp <- read.csv("gdp per capita.csv") %>%
   select(-X.1) %>% 
   rename(Country = X)
 
@@ -83,7 +83,7 @@ data <- left_join(gender_wage_gap, gdp, by = c("Country", "Year"))
 
 # Gender stats data
 
-gender <- read.csv("Data/gender stats.csv") 
+gender <- read.csv("gender stats.csv") 
 
 
 gender <- gender[-c(15,16,17,18,19), ]
@@ -120,7 +120,7 @@ data <- left_join(data, labor_force_participation, by = c("Country", "Year"))
 data <- left_join(data, part_time_employment, by = c("Country", "Year")) 
 
 # Educational attainment, at least Bachelor's or equivalent, population 25+, female (%) (cumulative)
-female_bachelors <- read.csv("Data/female bachelors attainment.csv") %>% 
+female_bachelors <- read.csv("female bachelors attainment.csv") %>% 
   rename(Country = X) %>% 
   select(-X.1) %>% 
   mutate(Country = ifelse(Country == "Korea, Rep.", "Korea", Country)) %>% 

@@ -4,69 +4,34 @@ author:
   - name: Muhammad Nor Hakim bin Mad Yusof (28693310)
   - name: Chanya Kitprapa (34684824)
   - name: Janhavi Bayanwar (35579331)
-format: revealjs
+format: 
+  revealjs:
+    theme: serif
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Problem introduction
 
--   Investigate how and why gender pay gaps differ across countries
+-   Investigate how and why gender wage gaps differ across countries
 
 -   Explore factors influencing wage gaps using OECD and World Bank data
 
 ------------------------------------------------------------------------
 
-## Dataset description
-
--   7 countries: Australia, UK, US, Sweden, Japan, Korea, EU\
--   Timeframe: 2000–2020\
--   Data sources: OECD, World Bank\
--   Key variables:
-    -   Gender wage gap (%)
-    -   GDP per capita (USD, 2015)
-    -   Female labor force participation
-    -   Part-time employment (%)
-    -   Female education (Bachelor+)
-
-------------------------------------------------------------------------
-
-## Methods
-
--   Data from 7 regions (e.g., Australia, US, Japan, Sweden, EU)
-
--   Timeframe: 2000–2020
-
--   Variables used:
-
-    -   Gender wage gap (% of male earnings)
-
-    -   GDP per capita (USD, 2015)
-
-    -   Female labour force participation (15–64)
-
-    -   Female educational attainment (Bachelor+)
-
-    -   Part-time female employment rate
-
--   Tools: R, tidyverse, ggplot2, Quarto
-
-## Results / Key Findings – Trends Over Time
-
--   Gender wage gaps **declined** in all countries studied
-
--   **Korea and Japan**: highest, slowest to improve
-
--   **Sweden and EU**: lowest gaps, most consistent improvements
-
--   **Australia, UK, US**: moderate progress with fluctuations
-
 ```{r}
 #| echo: false
-
+# Load packages
 library(fpp3)
 library(kableExtra)
 library(dplyr)
 library(stringr)
+
+```
+
+```{r}
+#| echo: false
 
 # Data cleaning and preperation
 
@@ -161,29 +126,81 @@ data <- data %>%
 
 ```
 
----
+## Dataset description {.small}
+
+-   **7 developed countries**: Australia, UK, US, Sweden, Japan, Korea, EU\
+-   **Timeframe**: 2000–2020\
+-   **Data sources**: OECD and World Bank data portals\
+-   **Key variables**:
+    -   GDP per capita (US$, 2015)
+    -   Female labor force participation (%)
+    -   Female part-time employment (%)
+    -   Female education attainment (Bachelors or equivalent)
+
+------------------------------------------------------------------------
+
+## Snapshot of dataset {.scrollable}
+```{r}
+#| label: tbl-summary
+#| tbl-cap: "Summary of final dataset used for analysis"
+
+data %>% 
+  filter(Year == 2020) %>% 
+  head() %>% 
+  kable()
+```
+
+------------------------------------------------------------------------
+
+## Methods {.tiny}
+
+-   Panel data was created by compiling datasets from OECD and World Bank
+
+-   The gender wage gap is expressed as:
+
+$$
+\text{Wage Gap} = \frac{\text{Men's median pay} - \text{Women's median pay}}{\text{Men's median pay}} \times 100
+$$
+
+-   Time series plots were used to observe trends and variations and to compare against the OECD average of **11%**
+
+-   Tools: R packages (tidyverse, ggplot2)
+
+------------------------------------------------------------------------
+
+## Results - Gender wage gap
+
+-   Gender wage gaps **declined** in all countries studied
+
+-   **Korea and Japan**: highest, slowest to improve
+
+-   **Sweden and EU**: lowest gaps, most consistent improvements
+
+-   **Australia, UK, US**: moderate progress with fluctuations
+
+------------------------------------------------------------------------
 
 ```{r}
 #| label: fig-medianwagegap
-#| fig-cap: "Median gender wage gap by country (2000-2020)"
+#| fig-cap: "Gender wage gap across countries (2000-2020)"
 #| echo: false
 
 ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
   geom_line(size = 1.2) +
   geom_point(size = 2) +
   labs(
-    title = "Gender Wage Gap",
     x = "Year",
-    y = "Median Gender Wage Gap (%)",
+    y = "Gender Wage Gap (%)",
     color = "Country"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red")
 
 ```
 
 ------------------------------------------------------------------------
 
-## GDP vs Wage Gap
+## Results - GDP vs Gender wage gap
 
 -   No clear relationship between **high GDP** and **low wage gaps**
 
@@ -191,11 +208,11 @@ ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
 
 -   Structural factors matter more than income level
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: fig-wagegapvsgdp
-#| fig-cap: "Median gender wage gap vs GDP per capita across countries (2000-2020)"
+#| fig-cap: "Gender wage gap vs GDP per capita across countries (2000-2020)"
 #| echo: false
 
 data_filtered <- data %>% 
@@ -208,23 +225,23 @@ data_gdp <- data_filtered %>%
 ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country)) +
   geom_point(size = 4) +
   labs(
-    title = "Median gender wage gap vs GDP per capita across countries (2000-2020)",
-    x = "GDP per Capita (2015, $US)",
-    y = "Median Gender Wage Gap (%)",
+    x = "GDP per Capita (US$, 2015)",
+    y = "Gender Wage Gap (%)",
     color = "Country"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red")
 ```
 
----
+------------------------------------------------------------------------
 
-## Women’s Education Attainment
+## Results - Women’s education attainment
 
 -   All countries saw an increase in female bachelor’s degree attainment
 -   Most countries converged above 36% by 2020
 -   Higher education ≠ lower wage gap
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: fig-femaleeducation
@@ -234,31 +251,33 @@ ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country))
 education_filtered <- data %>%
   filter(Year >= 2013, !Country %in% c("European Union", "Japan", "Korea"))
 
+education_filtered <- education_filtered %>% 
+  mutate(Female_bachelors = as.numeric(Female_bachelors))
+
 ggplot(education_filtered, aes(x = Year, y = Female_bachelors, color = Country, group = Country)) +
   geom_line(size = 1.2) +
   labs(
-    title = "Female Bachelor's Degree or Equivalent Attainment by Country (2013–2020)",
     x = "Year",
-    y = "Female Attainment (%)",
+    y = "Bachelor's Degree Attainment (%)",
     color = "Country"
   ) +
   theme_minimal()
 
 ```
 
----
+------------------------------------------------------------------------
 
-## Female Part-Time Employment vs Wage Gap
+## Female part-time employment vs gender wage gap
 
 -   Positive correlation: more female part-time → higher wage gap
 -   Japan and UK showed strongest relationship
 -   Sweden maintains low wage gap despite high part-time rates
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: fig-wagegapvsparttime
-#| fig-cap: "Median gender wage gap vs Part-time female employment (2000-2020)"
+#| fig-cap: "Gender wage gap vs Part-time female employment (2000-2020)"
 
 data_filtered_new <- data %>% 
   filter(!Country %in% c("Korea", "Japan"))
@@ -268,7 +287,6 @@ ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, c
   facet_wrap(~ Country) +
   scale_color_viridis_c() +
   labs(
-    title = "Evolution of Gender Wage Gap vs. Part-time female employment",
     x = "Part-time female employment (%)",
     y = "Median Gender Wage Gap (%)",
     color = "Year"

@@ -299,18 +299,6 @@ ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, c
 
 ------------------------------------------------------------------------
 
-## Discussion
-
--   Wage gaps persist due to **structural inequalities**
-
--   Cultural norms, family leave policies, and workplace promotion bias
-
--   Gaps are **not explained by GDP alone**
-
--   Indicator does not adjust for hours worked, role seniority, or industry
-
-------------------------------------------------------------------------
-
 ## Conclusion
 
 -   Gender wage gaps are narrowing overall, but **unevenly**

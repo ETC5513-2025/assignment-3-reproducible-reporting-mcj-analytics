@@ -46,6 +46,7 @@ This complexity makes the gender pay gap a useful but incomplete signal—it ref
 ```{r}
 # Load packages
 
+library(tidyverse)
 library(fpp3)
 library(kableExtra)
 library(dplyr)
@@ -172,6 +173,8 @@ A snapshot of the dataset, including 2020 values for each country, is presented 
 ```{r}
 #| label: fig-medianwagegap
 #| fig-cap: "Gender wage gap by country (2000-2020)"
+#| fig-align: "center"
+#| fig-pos: "H"
 
 ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
   geom_line(size = 1.2) +
@@ -195,6 +198,8 @@ ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
 ```{r}
 #| label: fig-femaleeducation
 #| fig-cap: "Evolution of female education attainment across countries (2013-2020)"
+#| fig-align: "center"
+#| fig-pos: "H"
 
 education_filtered <- data %>%
   filter(Year >= 2013, !Country %in% c("European Union", "Japan", "Korea"))
@@ -218,6 +223,8 @@ From 2013 to 2020, female education attainment rose across all countries, surpas
 ```{r}
 #| label: fig-wagegapvsgdp
 #| fig-cap: "Gender wage gap vs GDP per capita across countries (2000-2020)"
+#| fig-align: "center"
+#| fig-pos: "H"
 
 data_filtered <- data %>% 
   filter(Country !="Korea")
@@ -245,6 +252,8 @@ In @fig-wagegapvsgdp, the gender wage gap tends to decrease with higher GDP per 
 ```{r}
 #| label: fig-wagegapvsflabpart
 #| fig-cap: "Gender wage gap vs Female labor force participation (2000-2020)"
+#| fig-align: "center"
+#| fig-pos: "H"
 
 data_filtered <- data %>% 
   filter(Country !="Korea")
@@ -271,6 +280,8 @@ ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, c
 ```{r}
 #| label: fig-wagegapvsparttime
 #| fig-cap: "Gender wage gap vs Part-time female employment (2000-2020)"
+#| fig-align: "center"
+#| fig-pos: "H"
 
 data_filtered_new <- data %>% 
   filter(!Country %in% c("Korea", "Japan"))
@@ -325,3 +336,5 @@ Based on our analysis, these are the suggested policy actions that may improve t
 - Complement Wage Gap Metrics with Contextual Indicators
 
   Future analyses should integrate additional variables—such as hours worked, occupation type, and industry segmentation—to better understand the underlying causes of pay disparities and   guide targeted interventions.
+  
+# References

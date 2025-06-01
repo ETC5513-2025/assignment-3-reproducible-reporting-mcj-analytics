@@ -31,11 +31,9 @@ execute:
   message: false
 ---
 
-<!-- START: Executive Summary -->
-
 # Executive Summary
 
-<!-- END: Executive Summary -->
+This report investigates the gender wage gap across seven OECD countries, analyzing how economic indicators and labor force characteristics shape earnings disparities between men and women. Despite rising female education levels and labor force participation, the wage gap remains persistent—particularly in countries like Japan and South Korea—highlighting the influence of structural and policy-driven factors. Nations such as Sweden and the European Union demonstrate that progressive labor policies can contribute to more equitable outcomes. The findings suggest that addressing occupational segregation, care responsibilities, and wage transparency is essential for closing the gender pay gap.
 
 # Introduction
 
@@ -56,7 +54,7 @@ library(stringr)
 # Data cleaning and preparation
 # Gender wage gap data
 
-gender_wage_gap <- read.csv("Data/gender wage gap across time.csv") %>%
+gender_wage_gap <- read.csv("gender wage gap across time.csv") %>%
   select(Reference.area, OBS_VALUE, TIME_PERIOD) %>% 
   rename(Country = Reference.area, Gender_Wage_Gap = OBS_VALUE, Year = TIME_PERIOD) %>% 
   arrange(Year)
@@ -69,7 +67,7 @@ gender_wage_gap <- gender_wage_gap %>%
   mutate(Country = ifelse(Country == "European Union (27 countries)", "European Union", Country))
 
 # GDP per capita data
-gdp <- read.csv("Data/gdp per capita.csv") %>%
+gdp <- read.csv("gdp per capita.csv") %>%
   select(-X.1) %>% 
   rename(Country = X)
 
@@ -90,7 +88,7 @@ data <- left_join(gender_wage_gap, gdp, by = c("Country", "Year"))
 
 # Gender stats data
 
-gender <- read.csv("Data/gender stats.csv") 
+gender <- read.csv("gender stats.csv") 
 
 
 gender <- gender[-c(15,16,17,18,19), ]
@@ -127,7 +125,7 @@ data <- left_join(data, labor_force_participation, by = c("Country", "Year"))
 data <- left_join(data, part_time_employment, by = c("Country", "Year")) 
 
 # Educational attainment, at least Bachelor's or equivalent, population 25+, female (%) (cumulative)
-female_bachelors <- read.csv("Data/female bachelors attainment.csv") %>% 
+female_bachelors <- read.csv("female bachelors attainment.csv") %>% 
   rename(Country = X) %>% 
   select(-X.1) %>% 
   mutate(Country = ifelse(Country == "Korea, Rep.", "Korea", Country)) %>% 
@@ -144,52 +142,51 @@ data <- left_join(data, female_bachelors, by = c("Country", "Year"))
 data <- data %>% 
   mutate(Labour_force_participation = as.numeric(Labour_force_participation))
 ```
-
-This study investigates cross-country differences in the gender wage gap by analyzing trends from 2000 to 2020 across seven countries and regions: Australia, United Kingdom, United States, Sweden, Japan, South Korea, and the European Union. The gender wage gap is measured as the difference in median earnings between men and women, expressed as a percentage of male earnings. This metric captures broader structural inequality beyond direct wage discrimination, and serves as the dependent variable in our analysis.
+This study investigates cross-country differences in the gender wage gap by analyzing trends from 2000 to 2020 across seven countries and regions: Australia, United Kingdom (U.K), United States (U.S), Sweden, Japan, South Korea, and the European Union (EU). The gender wage gap is measured as the difference in median earnings between men and women, expressed as a percentage of male earnings. This metric captures broader structural inequality beyond direct wage discrimination, and serves as the dependent variable in our analysis.
 
 To explore possible explanatory factors, we compiled four key indicators for each country and year:
 
--   GDP per capita (2015 USD)
+-   GDP per capita (US$, 2015)
 -   Female labor force participation rate (% of female population aged 15-64)
 -   Part-time employment (% of total female employment)
 -   Educational attainment of females aged 25+ at bachelor's level or equivalent (% of females).
 
 All variables were sourced from the World Bank and Organisation for Economic Co-operation and Development (OECD) gender gata portals and merged into a panel dataset by country and year. Some variables for certain countries in certain years are missing due to incomplete data collection by these bodies.
 
-Time series plots were used to observe trends and variation and to also compare the gender wage gap to the 2023 OECD average of 11% as our threshold. All data wrangling and visualization were conducted in R using the tidyverse and ggplot2 packages. Figures and tables are embedded in this Quarto document and referenced dynamically using Quarto cross-referencing syntax.
+Time series plots were used to observe trends and variation and to also compare the gender wage gap to the 2023 OECD average of 11% - our threshold. All data wrangling and visualization were conducted in R using the tidyverse and ggplot2 packages.
 
-## Summary of dataset
+## Snapshot of dataset
 
 ```{r}
-#| label: tbl-summary
+#| label: tbl-snapshot
 #| tbl-cap: "Summary of final dataset used for analysis"
 
 data %>% 
   filter(Year == 2020) %>% 
   kable()
 ```
-
-A summary of the dataset, including 2020 values for each country, is presented in @tbl-summary.
+A snapshot of the dataset, including 2020 values for each country, is presented in @tbl-snapshot.
 
 ## Gender wage gap
 
 ```{r}
 #| label: fig-medianwagegap
-#| fig-cap: "Median gender wage gap by country (2000-2020)"
+#| fig-cap: "Gender wage gap by country (2000-2020)"
 
 ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
   geom_line(size = 1.2) +
   geom_point(size = 2) +
   labs(
-    title = "Gender Wage Gap",
     x = "Year",
-    y = "Median Gender Wage Gap (%)",
+    y = "Gender Wage Gap (%)",
     color = "Country"
-  ) +
-  theme_minimal()
+      ) +
+  theme_minimal() +
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red") +
+  annotate("text", x = Inf, y = 11, label = "OECD average", 
+           hjust = 1.1, vjust = -0.5, color = "red", size = 3.5)
 ```
-
-@fig-medianwagegap shows that while the median gender wage gap declined across all seven countries from 2000 to 2020, the rate and extent of improvement varied significantly. Korea and Japan maintained the highest wage gaps throughout the period, despite gradual declines, whereas Sweden and the European Union exhibited the lowest and most consistent reductions. The United Kingdom, United States, and Australia showed moderate progress, with notable year-to-year fluctuations.
+@fig-medianwagegap shows that while the gender wage gap declined across all seven countries from 2000 to 2020, the rate and extent of improvement varied significantly. Korea and Japan maintained the highest wage gaps throughout the period, despite gradual declines, whereas Sweden and the European Union exhibited the lowest and most consistent reductions. The U.K, U.S, and Australia showed moderate progress, with notable year-to-year fluctuations.
 
 # Results
 
@@ -202,24 +199,25 @@ ggplot(data, aes(x = Year, y = Gender_Wage_Gap, color = Country)) +
 education_filtered <- data %>%
   filter(Year >= 2013, !Country %in% c("European Union", "Japan", "Korea"))
 
+education_filtered <- education_filtered %>% 
+  mutate(Female_bachelors = as.numeric(Female_bachelors))
+
 ggplot(education_filtered, aes(x = Year, y = Female_bachelors, color = Country, group = Country)) +
   geom_line(size = 1.2) +
   labs(
-    title = "Female Bachelor's Degree or Equivalent Attainment by Country (2013–2020)",
     x = "Year",
-    y = "Female Attainment (%)",
+    y = "Female Bachelor's or Equivalent Attainment (%)",
     color = "Country"
-  ) +
+      ) +
   theme_minimal()
 ```
+From 2013 to 2020, female education attainment rose across all countries, surpassing 36% by 2020 (@fig-femaleeducation). Yet, the persistent gender wage gap suggests that education alone cannot close pay disparities without tackling deeper structural and occupational inequalities.
 
-From 2013 to 2020, female bachelor’s attainment increased across all countries, with convergence above 36% by 2020 as shown in @fig-femaleeducation. However, despite this educational progress, the gender wage gap remained persistent—indicating that higher educational attainment alone is insufficient to eliminate wage disparities without addressing broader structural and occupational inequalities.
-
-## Gender wage gap VS. GDP per capita (US\$, 2015)
+## Gender wage gap VS. GDP per capita (US$, 2015)
 
 ```{r}
 #| label: fig-wagegapvsgdp
-#| fig-cap: "Median gender wage gap vs GDP per capita across countries (2000-2020)"
+#| fig-cap: "Gender wage gap vs GDP per capita across countries (2000-2020)"
 
 data_filtered <- data %>% 
   filter(Country !="Korea")
@@ -231,21 +229,22 @@ data_gdp <- data_filtered %>%
 ggplot(data_gdp, aes(x = GDP_per_capita, y = Gender_Wage_Gap, colour = Country)) +
   geom_point(size = 4) +
   labs(
-    x = "GDP per Capita (2015, $US)",
-    y = "Median Gender Wage Gap (%)",
+    x = "GDP per Capita (US$, 2015)",
+    y = "Gender Wage Gap (%)",
     color = "Country"
   ) +
   theme_minimal() +
-  geom_hline(yintercept = 11, linetype = "dashed", color = "red")
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red") +
+  annotate("text", x = Inf, y = 11, label = "OECD average", 
+           hjust = 1.1, vjust = -0.5, color = "red", size = 3.5)
 ```
-
-@fig-wagegapvsgdp shows that GDP per capita does not have a consistent or linear relationship with the median gender wage gap across countries. While higher-income countries like Sweden and the EU tend to exhibit lower wage gaps, the U.S. and Australia maintain relatively high wage gaps despite high GDP per capita, indicating that economic prosperity alone does not ensure gender pay equity.
+In @fig-wagegapvsgdp, the gender wage gap tends to decrease with higher GDP per capita, with Sweden and the EU falling below the OECD average. However, persistently high gaps in countries like Japan and the U.S suggest that income alone does not explain wage inequality.
 
 ## Gender wage gap VS. Female labor force participation
 
 ```{r}
 #| label: fig-wagegapvsflabpart
-#| fig-cap: "Median gender wage gap vs Female labor force participation (2000-2020)"
+#| fig-cap: "Gender wage gap vs Female labor force participation (2000-2020)"
 
 data_filtered <- data %>% 
   filter(Country !="Korea")
@@ -255,23 +254,23 @@ ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, c
   facet_wrap(~ Country) +
   scale_color_viridis_c() +
   labs(
-    title = "Evolution of Gender Wage Gap vs. Labor Participation",
     x = "Female Labor Force Participation (%)",
-    y = "Median Gender Wage Gap (%)",
+    y = "Gender Wage Gap (%)",
     color = "Year"
-  ) +
+      ) +
   theme_minimal() +
   scale_x_continuous(breaks = seq(2000, 2020, by = 5)) +
-  geom_hline(yintercept = 11, linetype = "dashed", color = "red")
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red") +
+  annotate("text", x = Inf, y = 11, label = "OECD average", 
+           hjust = 1.1, vjust = -0.5, color = "red", size = 3.5)
 ```
-
-@fig-wagegapvsflabpart shows that in most countries, increases in female labor force participation over time are associated with declines in the median gender wage gap. However, the strength and consistency of this relationship vary: countries like the UK and EU show a strong negative association, while the US displays a relatively flat or even slightly positive trend.
+@fig-wagegapvsflabpart shows that in most countries, increases in female labor force participation over time are associated with declines in the gender wage gap. However, the strength and consistency of this relationship vary: countries like the U.K and EU show a strong negative association, while the U.S displays a relatively flat or even slightly positive trend.
 
 ## Gender wage gap VS. Part-time female employment
 
 ```{r}
 #| label: fig-wagegapvsparttime
-#| fig-cap: "Median gender wage gap vs Part-time female employment (2000-2020)"
+#| fig-cap: "Gender wage gap vs Part-time female employment (2000-2020)"
 
 data_filtered_new <- data %>% 
   filter(!Country %in% c("Korea", "Japan"))
@@ -281,46 +280,48 @@ ggplot(data_filtered, aes(x = Labour_force_participation, y = Gender_Wage_Gap, c
   facet_wrap(~ Country) +
   scale_color_viridis_c() +
   labs(
-    title = "Evolution of Gender Wage Gap vs. Part-time female employment",
     x = "Part-time female employment (%)",
-    y = "Median Gender Wage Gap (%)",
+    y = "Gender Wage Gap (%)",
     color = "Year"
-  ) +
+      ) +
   theme_minimal() +
   scale_x_discrete(breaks = seq(2000, 2020, by = 5)) +
-  geom_hline(yintercept = 11, linetype = "dashed", color = "red")
+  geom_hline(yintercept = 11, linetype = "dashed", color = "red") +
+  annotate("text", x = Inf, y = 11, label = "OECD average", 
+           hjust = 1.1, vjust = -0.5, color = "red", size = 3.5)
 ```
-
-@fig-wagegapvsparttime shows a positive association between female part-time employment and the gender wage gap in several countries, especially Japan and the UK. However, Sweden demonstrates that even with relatively high part-time rates, strong labor protections may have helped sustain a lower wage gap over time.
+@fig-wagegapvsparttime shows a positive association between female part-time employment and the gender wage gap in several countries, especially Japan and the U.K. However, Sweden demonstrates that even with relatively high part-time rates, strong labor protections may have helped sustain a lower wage gap over time.
 
 # Discussion
 
-The gender wage gap which varies greatly between nations and over time, is still a persistent global problem. The report analyzes the percentage difference in the earnings of females compared to males to assess salary discrepancies across a large sample of OECD nations. Due to ingrained structural disparities and gender norms in the workplace, countries like South Korea and Japan continue to have some of the highest gaps, frequently surpassing 20%. In contrast nations like Sweden and the European Union on the other hand have significantly lower wage gaps, owing to progressive labour laws, subsidized child care and equal parental leave. Although the rate of improvement has slowed recently the data also suggests an overall downward trend in the wage gap over. Moreover some countries show fluctuations rather than steady advancement, indicating that policy changes, labour force participation variations all impact wage equity outcomes. Importantly, variations in seniority, industry,hours worked and occupation- factors that can both mask and intensify underlying discrimination are not taken into consideration by the gap indicator.
+The gender wage gap remains a persistent global issue, with substantial variation across countries and over time. This report analyzed the gender wage gap across several developed OECD nations to assess the extent of income inequality. These countries were chosen to provide a somewhat even basis of analysis due to their economic maturity, whilst having a nuanced comparison due to their differing industrial and policy make ups. 
+
+Countries such as South Korea and Japan consistently exhibit some of the highest wage gaps—often exceeding 20%—reflecting entrenched structural inequalities and traditional gender norms in the workplace. In contrast, nations like Sweden and the European Union demonstrate significantly lower gaps, supported by progressive labor policies, subsidized childcare, and equitable parental leave. Although the overall trend points to a gradual decline in the wage gap, the pace of progress has slowed in recent years. Some countries exhibit fluctuating trajectories rather than steady improvement, suggesting that changes in policy, female labor force participation, and broader economic conditions all influence wage equity. Notably, the gender wage gap metric does not account for variations in occupation, industry, seniority, or hours worked—factors that can obscure or amplify underlying discrimination—highlighting the complexity of interpreting this indicator in isolation.
 
 # Conclusion
 
-The data confirms that the gender wage gap between 2000 and 2020 is still a major obstacle to economic fairness even though it is gradually closing in many nations. Even though there has been some noticeable progress, particularly in countries where specific policy interventions have been implemented, the pace of development is uneven and frequently stalls in the absence of consistent effort. High-gap countries demonstrate how cultural attitudes, insufficient family policies, and limited access to leadership roles for women continue to perpetuate inequality. By improving social cohesiveness, productivity, and talent utilization, a closing pay gap helps economics as well as individuals. Achieving gender pay equity is thus not just a moral imperative but an economic one.
+This report has examined cross-national differences in the gender wage gap, highlighting how structural, economic, and institutional factors contribute to persistent earnings disparities between men and women. While countries such as Sweden and the European Union have achieved relatively low wage gaps, others—including Japan and South Korea—continue to report high levels of inequality despite economic growth. Although female education attainment has improved and labor force participation has increased, these advances alone have not closed the wage gap, indicating that deeper structural reforms are needed. The analysis underscores that the gender wage gap is not solely a function of individual qualifications or productivity, but also of entrenched occupational segregation, unequal caregiving responsibilities, and insufficient policy support.
 
 # Recommendations
 
-1.  Government should enforce pay transparency laws and compel big businesses to submit gender-disaggregated compensation data on a regular basis.
+Based on our analysis, these are the suggested policy actions that may improve the narrowing of the gender wage gap:
 
-2.  Increase access to cost-effective childcare, encourage parental leave uptake, and support flexible work schedules to support working parents.
+- Implement Gender-Responsive Labor Policies
 
-3.  Encourage the presence of women in executive and managerial positions by implementing fair promotion practices, sponsorship, quotas.
+  Governments should strengthen laws that promote equal pay, flexible work arrangements, and inclusive parental leave to support women’s full economic participation.
 
-4.  Keep a close eye on developments in the pay gap and assess the success of measures using internationally recognized metrics.
+- Invest in Childcare and Family Support Services
 
-5.  Promote STEM education, mentorship and discrimination-free hiring practices to encourage women and girls to pursue historically male-dominated fields.
+  Expanding access to affordable childcare and shared parental leave can reduce the disproportionate burden of unpaid care work on women and facilitate career continuity.
 
+- Increase Transparency and Data Reporting
 
-<!-- START: References -->
-# References
+  Mandating the disclosure of wage data by gender and occupation can help identify disparities within organizations and encourage accountability.
 
+- Promote Female Representation in Leadership
 
+  Policies that support the advancement of women into senior and decision-making roles can help disrupt structural barriers and narrow wage gaps over time.
 
+- Complement Wage Gap Metrics with Contextual Indicators
 
-
-
-<!-- END: References -->
-
+  Future analyses should integrate additional variables—such as hours worked, occupation type, and industry segmentation—to better understand the underlying causes of pay disparities and   guide targeted interventions.
